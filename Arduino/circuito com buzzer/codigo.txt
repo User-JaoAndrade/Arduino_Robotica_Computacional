@@ -1,0 +1,34 @@
+// C++ code
+int LedRed = 8, LedGreen = 9;
+int button = 3;
+int stateButton;
+int buzzer = 7;
+
+void setup()
+{
+  pinMode(LedRed, OUTPUT);
+  pinMode(LedGreen, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(button, INPUT);
+}
+
+void loop()
+{
+  stateButton = digitalRead(button);
+  
+  /*Se 'Button' estiver ligado, a luz vermelha acende
+  e o buzzer liga*/
+  if(stateButton == HIGH){		
+  	digitalWrite(LedRed, HIGH);
+    digitalWrite(LedGreen, LOW);
+    tone(buzzer, 500, 1000);
+  }
+  
+  /*Se 'Button' estiver desligado, a luz verde acende e o buzzer 
+  desliga*/
+  if(stateButton == LOW){
+    digitalWrite(LedRed, LOW);
+    digitalWrite(LedGreen, HIGH);
+    noTone(buzzer);
+  }
+}

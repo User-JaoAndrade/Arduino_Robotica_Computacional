@@ -1,0 +1,39 @@
+// C++ code
+//
+#include <Servo.h>
+
+int LedRed = 13, LedGreen = 12;
+int Motor = 9; //PWM
+int angulo = 0;
+int button1 = 2, button2 = 1, stateButton1, stateButton2;
+
+Servo servo1;
+
+void setup()
+{
+  servo1.attach(Motor);
+  pinMode(LedRed, OUTPUT);
+  pinMode(LedGreen, OUTPUT);
+  pinMode(button1, INPUT);
+  pinMode(button2, INPUT);
+}
+
+void loop()
+{
+  stateButton1 = digitalRead(button1);
+  stateButton2 = digitalRead(button2);
+  
+  
+  if (stateButton1 == HIGH){
+    digitalWrite(LedRed, LOW);
+  	digitalWrite(LedGreen, HIGH);
+    servo1.write(90);
+  }
+  
+  if (stateButton2 == HIGH){
+    digitalWrite(LedRed, HIGH);
+  	digitalWrite(LedGreen, LOW);
+    servo1.write(0);
+  }
+  
+}

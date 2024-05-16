@@ -1,0 +1,23 @@
+// C++ code
+//
+#include <Servo.h> //adiciona a biblioteca do servo motor
+
+int servo = 6; //pino do servo motor
+int anguloServo; //variavel que vai girar o servo motor
+int potenciometro = A1; //pino do potenciometro
+int valorPotenciometro; //variavel que vai receber algum valor pro potenciometro
+
+Servo servo1;
+
+void setup()
+{
+  servo1.attach (servo); 
+}
+
+void loop()
+{
+  valorPotenciometro = analogRead (potenciometro); //Valor recebido do pino do potenciometro
+  anguloServo = map(valorPotenciometro, 0, 1023, 0, 180);
+  servo1.write(anguloServo);
+  delay (15);
+}

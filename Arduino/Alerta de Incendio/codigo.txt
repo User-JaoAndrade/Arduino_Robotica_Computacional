@@ -1,0 +1,52 @@
+// C++ code
+
+#define sensorTemp1 A0
+#define sensorTemp2 A1
+#define ledRed 9
+#define ledGreen 8
+#define buzzer 2
+
+float temp = 0.0, temp2 = 0.0;
+float lastTemp = 0.0, lastTemp2 = 0.0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(buzzer, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+  pinMode(ledGreen, OUTPUT);
+}
+
+void loop()
+{ 
+  temp = (analogRead(sensorTemp1) * (5.0 / 1023)) / 0.01;
+  temp2 = (analogRead(sensorTemp2) * (5.0 / 1023)) / 0.01;
+  
+  //Mostrar os Valores no monitor Serial
+  if (temp != lastTemp){
+    lastTemp = temp; // guardar ultimo valor da temperatura
+    Serial.print("Temp: ");
+    Serial.print(temp);
+    Serial.println(" °C");
+  } 
+  
+  delay(1000);
+  
+  if (temp2 != lastTemp2) {
+    lastTemp2 = temp2; // guardar ultimo valor da temperatura
+    Serial.print("Temp2: ");
+    Serial.print(temp2);
+    Serial.println(" °C");
+  }
+  
+  //Condições de temperatura
+  if (temp >= 93.84 || temp2 >= 93.84){
+  	digitalWrite(ledRed, HIGH);
+    digitalWrite(ledGreen, LOW);
+    tone(buzzer, 200, 1000);
+  } else {
+    digitalWrite(ledRed, LOW);
+    digitalWrite(ledGreen, HIGH);
+    noTone(buzzer);
+  }
+}

@@ -1,0 +1,39 @@
+// C++ code
+//
+
+#define LED_RED 3
+#define LED_BLUE 5
+#define LED_GREEN 6
+  
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(LED_RED, OUTPUT);
+  pinMode(LED_BLUE, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+}
+
+void loop()
+{
+  analogWrite(LED_RED, 0);
+  analogWrite(LED_BLUE, 0);
+  analogWrite(LED_GREEN, 0);
+  
+  //Vermelho
+  analogWrite(LED_RED, 255);
+  analogWrite(LED_BLUE, 0);
+  analogWrite(LED_GREEN, 0);
+  
+  //Azul
+  delay(1000);
+  analogWrite(LED_RED, 0);
+  analogWrite(LED_BLUE, 255);
+  analogWrite(LED_GREEN, 0);
+  
+  //Verde
+  delay(1000);
+  analogWrite(LED_RED, 0);
+  analogWrite(LED_BLUE, 0);
+  analogWrite(LED_GREEN, 255);
+  delay(1000);
+}

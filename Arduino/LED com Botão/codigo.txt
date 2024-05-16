@@ -1,0 +1,26 @@
+// C++ code
+int red = 12; //LED VERMELHO
+int green = 13; //LED VERDE
+int button = 3; //BOTÃO
+int stateButton = 0; //Variavel que vai guardar o valor do pino 3
+
+void setup()
+{
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(button, INPUT); //BOTÃO
+}
+
+void loop()
+{
+  stateButton = digitalRead(button);
+  digitalWrite (red, HIGH);
+  digitalWrite (green, LOW);
+  
+  //Led Verde liga por 5 segundos se o botao for pressionado
+  if (stateButton == HIGH) {
+    digitalWrite (red, LOW);
+    digitalWrite (green, HIGH);
+    delay (5000);
+  }
+}

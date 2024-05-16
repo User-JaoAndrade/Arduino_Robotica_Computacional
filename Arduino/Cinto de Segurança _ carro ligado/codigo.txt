@@ -1,0 +1,30 @@
+// C++ code
+//
+int buzzer = 7;
+int LedRed = 8, LedGreen = 9;
+int stateButton1, stateButton2;
+
+void setup()
+{
+  pinMode(LedRed, OUTPUT);
+  pinMode(LedGreen, OUTPUT);
+  pinMode (buzzer, OUTPUT);
+  pinMode(13, INPUT);
+  pinMode(12, INPUT);
+}
+
+void loop()
+{
+  stateButton1 = digitalRead(13);
+  stateButton2 = digitalRead(12);
+  
+  if(stateButton1 == HIGH && stateButton2 == HIGH){
+    digitalWrite(LedRed, HIGH);
+    digitalWrite(LedGreen, LOW);
+    tone(buzzer, 200, 1000);
+  } else {
+    digitalWrite(LedRed, LOW);
+    digitalWrite(LedGreen, HIGH);
+    noTone(buzzer);
+  }
+}

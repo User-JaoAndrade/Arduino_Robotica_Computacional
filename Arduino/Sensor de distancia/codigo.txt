@@ -1,0 +1,69 @@
+#define pTrigger 7
+#define pEcho 6
+#define ledGreen 8
+#define ledYellow 9
+#define ledOrange 10
+#define ledRed 11
+#define buzzer 2
+
+double dist = 0.0, distCM = 0.0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(pTrigger, OUTPUT);
+  pinMode(pEcho, INPUT);
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledYellow, OUTPUT);
+  pinMode(ledOrange, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(pTrigger, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pTrigger, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pTrigger, LOW);
+  
+  dist = pulseIn(pEcho, HIGH);
+  distCM = (dist / 2.0) * 0.0343;
+  Serial.print("Distancia: ");
+  Serial.print(distCM);
+  Serial.println(" cm");
+  
+  if (distCM < 316.00 && distCM > 250.00){
+    digitalWrite(ledGreen, HIGH);
+    digitalWrite(ledYellow, LOW);
+    digitalWrite(ledOrange, LOW);
+    digitalWrite(ledRed, LOW);
+    tone(buzzer, 200, 1000);
+  }
+  
+  if (distCM < 250.00 && distCM > 150.00){
+    digitalWrite(ledGreen, LOW);
+    digitalWrite(ledYellow, HIGH);
+    digitalWrite(ledOrange, LOW);
+    digitalWrite(ledRed, LOW);
+    tone(buzzer, 300, 1000);
+  }
+  
+  if (distCM < 150.00 && distCM > 80.00){
+    digitalWrite(ledGreen, LOW);
+    digitalWrite(ledYellow, LOW);
+    digitalWrite(ledOrange, HIGH);
+    digitalWrite(ledRed, LOW);
+    tone(buzzer, 500, 1000);
+  } 
+  
+  if (distCM < 80.00){
+    digitalWrite(ledGreen, LOW);
+    digitalWrite(ledYellow, LOW);
+    digitalWrite(ledOrange, LOW);
+    digitalWrite(ledRed, HIGH);
+    tone(buzzer, 600, 1000);
+  }
+  delay(1000);
+}
