@@ -1,0 +1,29 @@
+// C++ code
+//
+void setup()
+{
+  pinMode (2, OUTPUT); //RED LED
+  pinMode (4, OUTPUT); //YELLOW LED
+  pinMode (7, OUTPUT); //GREEN LED
+}
+
+void loop()
+{
+  //RED LED ON
+  digitalWrite (2, HIGH);
+  digitalWrite (4, LOW);
+  digitalWrite (7, LOW);
+  delay (5000);
+  
+  //YELLOW LED ON
+  digitalWrite (2, LOW);
+  digitalWrite (4, HIGH);
+  digitalWrite (7, LOW);
+  delay (3000);
+  
+  //GREEN LED ON
+  digitalWrite (2, LOW);
+  digitalWrite (4, LOW);
+  digitalWrite (7, HIGH);
+  delay (5000);
+}
