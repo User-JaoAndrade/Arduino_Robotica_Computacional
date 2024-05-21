@@ -1,0 +1,92 @@
+#define sensTemperature A0 //Pino Sensor de Temperatura
+#define sensGas A1 //Pino Sensor de Gas
+#define ledGreen 3 //Pino Led Verde Temperatura
+#define ledYellow 5 //Pino Led Amarelo Temperatura
+#define ledRed 6 //Pino Led Vermelho Temperatura
+#define ledGreenG 10 //Pino Led Verde Gas
+#define ledYellowG 11 //Pino Led Amarelo Gas
+#define ledRedG 13 //Pino Led Vermelho Gas
+#define buzzer 7 //Pino do Buzzer Temperatura
+
+int serialGas = 0;
+float serialTemperature = 0.0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledYellow, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+  pinMode(ledGreenG, OUTPUT);
+  pinMode(ledYellowG, OUTPUT);
+  pinMode(ledRedG, OUTPUT);
+}
+
+void loop()
+{
+  //Guardando o valor de sensTemperature
+  float auxTemperature = (analogRead(sensTemperature) * (5.0 / 1023)) / 0.01;
+  //Guardando o valor de sensGas
+  int auxGas = analogRead(sensGas);
+  
+  //Guardar valores pra printar na tela sem loopar
+  if (serialGas != auxGas || serialTemperature != auxTemperature){ 
+    serialGas = auxGas;
+  	serialTemperature = auxTemperature;
+    Serial.print("Gas: ");
+  	Serial.println(serialGas);
+  	Serial.print("Temperatura: ");
+  	Serial.println(serialTemperature);
+  }
+  
+  
+  //Condições pra Led e Buzzer para valores de Temperatura
+  //Liga o Led Verde e Buzzer nao ativa
+  if (auxTemperature <= 58.33){
+    ColorLedT(ledGreen, ledYellow, ledRed, HIGH, LOW, LOW);
+    noTone(buzzer);
+  }
+  
+  //Liga o Led Amarelo e Buzzer nao ativa
+  else if(auxTemperature > 58.33 && auxTemperature <= 116.65){
+    ColorLedT(ledGreen, ledYellow, ledRed, HIGH, LOW, HIGH);
+    noTone(buzzer);
+  }
+  //Liga o led vermelho e ativa o buzzer
+  else if(auxTemperature > 116.65){
+    tone(buzzer, 500);
+    ColorLedT(ledGreen, ledYellow, ledRed, LOW, LOW, HIGH);
+    delay(500);
+    ColorLedT(ledGreen, ledYellow, ledRed, HIGH, LOW, HIGH);
+    delay(500);
+  } 
+  
+  
+  //Pisca o Led e Buzzer ativa
+  if (auxGas > 450) {
+    tone (buzzer, 600);
+    ColorLedG(ledGreenG, ledYellowG, ledRedG, LOW, LOW, HIGH);
+    delay (500);
+    ColorLedG(ledGreenG, ledYellowG, ledRedG, HIGH, LOW, HIGH);
+    delay(500);
+  } 
+  //Acende o Led Verde e o buzzer desativa
+  else {
+    noTone(buzzer);
+    ColorLedG(ledGreenG, ledYellowG, ledRedG, HIGH, LOW, LOW);
+  }
+}
+
+//Função de trocar cores na Led de Temperatura
+void ColorLedT(int green, int yellow, int red, int value1, int value2, int value3){
+  digitalWrite(green, value1);
+  digitalWrite(yellow, value2);
+  digitalWrite(red, value3);
+}
+
+//Função de trocar cores na Led de Gas
+void ColorLedG(int green, int yellow, int red, int value1, int value2, int value3){
+  digitalWrite(green, value1);
+  digitalWrite(yellow, value2);
+  digitalWrite(red, value3);
+}

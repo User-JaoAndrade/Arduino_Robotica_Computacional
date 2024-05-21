@@ -1,0 +1,66 @@
+#define sensTemperature A0 //Pino Sensor de Temperatura
+#define sensGas A1 //Pino Sensor de Gas
+#define buzzer 2 //Pino do Buzzer
+#define ledGreen 9 //Pino Led Verde
+#define ledYellow 10 //Pino Led Amarelo
+#define ledRed 11 //Pino Led Vermelho
+
+
+int serialGas = 0;
+float serialTemperature = 0.0;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(ledGreen, OUTPUT);
+  pinMode(ledYellow, OUTPUT);
+  pinMode(ledRed, OUTPUT);
+}
+
+void loop()
+{
+  //Guardando o valor de sensTemperature
+  float auxTemperature = (analogRead(sensTemperature) * (5.0 / 1023)) / 0.01;
+  //Guardando o valor de sensGas
+  int auxGas = analogRead(sensGas);
+  
+  //Guardar valores pra printar na tela sem loopar
+  if (serialGas != auxGas || serialTemperature != auxTemperature){ 
+    serialGas = auxGas;
+  	serialTemperature = auxTemperature;
+    Serial.print("Gas: ");
+  	Serial.println(serialGas);
+  	Serial.print("Temperatura: ");
+  	Serial.println(serialTemperature);
+  }
+  
+  //Condições
+  if (auxGas > 450 || auxTemperature > 116.55){
+    ColorLed(LOW, LOW, HIGH); //Vermelho
+    tone(buzzer, 500);
+  } 
+  else if (auxTemperature <= 58.33){
+    ColorLed(HIGH, LOW, LOW); //Verde
+    noTone(buzzer);
+  } 
+  else if(auxTemperature > 58.33 && auxTemperature <= 116.65){
+    ColorLed(HIGH, LOW, HIGH); //Amarelo
+    noTone(buzzer);
+  } 
+  
+  //Caso Gas e Temperatura estejam criticos
+  if (auxGas > 450 && auxTemperature > 116.65){
+    tone(buzzer, 3000);
+    ColorLed(LOW, LOW, HIGH); //Vermelho
+    delay(500);
+    ColorLed(HIGH, LOW, HIGH); //Amarelo
+    delay(500);
+  }
+}
+
+//Função de trocar cores na Led de Temperatura
+void ColorLed(int value1, int value2, int value3){
+  digitalWrite(ledGreen, value1);
+  digitalWrite(ledYellow, value2);
+  digitalWrite(ledRed, value3);
+}
