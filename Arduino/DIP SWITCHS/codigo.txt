@@ -1,0 +1,41 @@
+// Definindo os pinos
+#define DIP_1 2 //Pino 1 do DIP
+#define DIP_2 3 //Pino 2 do DIP
+#define DIP_3 4 //Pino 3 do DIP
+#define DIP_4 5 //Pino 4 do DIP
+#define LAMPADA 9 //Pino da Lampada
+const int LED[] = {13, 12, 11, 10}; //Leds 1, 2, 3 e 4
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(LED[0], OUTPUT); //Pino 13
+  pinMode(LED[1], OUTPUT); //Pino 12
+  pinMode(LED[2], OUTPUT); //Pino 11
+  pinMode(LED[3], OUTPUT); //Pino 10
+  pinMode(LAMPADA, OUTPUT);
+}
+
+void loop()
+{
+  int stateDIP1 = digitalRead(DIP_1); //Estado do DIP 1
+  int stateDIP2 = digitalRead(DIP_2); //Estado do DIP 2
+  int stateDIP3 = digitalRead(DIP_3); //Estado do DIP 3
+  int stateDIP4 = digitalRead(DIP_4); //Estado do DIP 4
+  
+  //Caso todos os DIPS estejam em HIGH
+  if (stateDIP1 == 1 && stateDIP2 == 1 && stateDIP3 == 1 && stateDIP4 == 1){
+    digitalWrite(LAMPADA, 1);
+    //Loop pra Desligar os LEDS
+    for(int i = 0; i < 4; i++){
+      digitalWrite(LED[i], 0);
+    }
+  } else {
+    digitalWrite(LAMPADA, 0);
+    digitalWrite(LED[0], stateDIP1);
+    digitalWrite(LED[1], stateDIP2);
+    digitalWrite(LED[2], stateDIP3);
+    digitalWrite(LED[3], stateDIP4);
+  }
+    
+}
